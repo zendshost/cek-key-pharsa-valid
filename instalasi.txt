@@ -1,3 +1,3 @@
 npm init -y
-npm install stellar-sdk bip39 ed25519-hd-key
+npm install stellar-sdk bip39 ed25519-hd-key axios
 node index.js
