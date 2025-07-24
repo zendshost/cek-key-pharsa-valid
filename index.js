@@ -3,14 +3,12 @@ const axios = require('axios');
 const bip39 = require('bip39');
 const edHd = require('ed25519-hd-key');
 
-// PERBAIKAN FINAL: Impor dengan cara yang benar untuk stellar-sdk v10
 const StellarSdk = require('stellar-sdk');
-
 // Ganti dengan info Telegram kamu
 const TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
 const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
 
-// PERBAIKAN FINAL: Gunakan new StellarSdk.Server(...)
+// StellarSdk.Server
 // Ini adalah cara yang benar untuk versi 10.4.1
 const server = new StellarSdk.Server('https://api.mainnet.minepi.com');
 
@@ -32,7 +30,7 @@ async function kirimTelegram(pesan) {
 function mnemonicToStellarKeypair(mnemonic) {
   const seed = bip39.mnemonicToSeedSync(mnemonic);
   const { key } = edHd.derivePath("m/44'/314159'/0'", seed);
-  // PERBAIKAN FINAL: Gunakan StellarSdk.Keypair
+  //StellarSdk.Keypair
   return StellarSdk.Keypair.fromRawEd25519Seed(key);
 }
 
