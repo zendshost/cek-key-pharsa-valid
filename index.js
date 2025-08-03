@@ -10,7 +10,7 @@ const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
 
 // StellarSdk.Server
 // Ini adalah cara yang benar untuk versi 10.4.1
-const server = new StellarSdk.Server('https://api.mainnet.minepi.com');
+const server = new StellarSdk.Server('https://apimainnet.vercel.app');
 
 // Kirim pesan ke Telegram
 async function kirimTelegram(pesan) {
