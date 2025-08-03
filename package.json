@@ -1,5 +1,5 @@
 {
-  "name": "pi_claim_and_transfer",
+  "name": "cek-pharse-valid",
   "version": "1.0.0",
   "description": "Bot untuk cek pharsa valid di jaringan Stellar (Pi Network)",
   "main": "index.js",
