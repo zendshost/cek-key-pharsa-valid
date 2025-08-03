@@ -29,7 +29,7 @@ async function kirimTelegram(pesan) {
     console.error('❌ Gagal kirim ke Telegram:', error.message);
     // Jika gagal karena rate limit, kita bisa menunggu lebih lama
     if (error.response && error.response.status === 429) {
-      console.log('Terkena rate limit Telegram, menunggu 10 detik...');
+      console.log('Terkena rate limit Telegram, menunggu 3 detik...');
       await delay(3000); // Tunggu 3 detik
     }
   }
