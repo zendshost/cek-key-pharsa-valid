@@ -9,7 +9,7 @@ const TELEGRAM_BOT_TOKEN = 'TOKEN_BOT';
 const TELEGRAM_CHAT_ID = 'ID_TELEGRAM';
 
 // StellarSdk.Server
-const server = new StellarSdk.Server('https://apimainnet.vercel.app');
+const server = new StellarSdk.Server('https://api.mainnet.minepi.com');
 
 // <<< BARU: Fungsi untuk memberi jeda (dalam milidetik)
 function delay(ms) {
