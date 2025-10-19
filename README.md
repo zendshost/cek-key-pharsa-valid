@@ -186,5 +186,4 @@ Jika Anda memiliki pertanyaan, saran, atau ingin berdiskusi, jangan ragu untuk m
 ## 📄 Lisensi
 
 Proyek ini dilisensikan di bawah [Lisensi MIT](LICENSE).
-
 ```
