@@ -84,3 +84,118 @@ Buka Terminal (atau Command Prompt) Anda dan jalankan perintah berikut untuk men
 
 ```bash
 git clone https://github.com/zendshost/cek-key-pharsa-valid.git
+```
+
+Setelah selesai, masuk ke direktori proyek:
+
+```bash
+cd cek-key-pharsa-valid
+```
+
+### Langkah 2: Instal Dependensi
+
+Jalankan perintah berikut untuk menginstal semua library yang dibutuhkan oleh proyek. Proses ini mungkin memakan waktu beberapa saat.
+
+```bash
+npm install
+```
+
+### Langkah 3: Siapkan File Mnemonic (`pharses.txt`)
+
+1.  Di dalam folder `cek-key-pharsa-valid`, buat sebuah file baru dengan nama `pharses.txt`.
+2.  Buka file tersebut dengan editor teks dan masukkan daftar *mnemonic phrase* Anda.
+3.  **PENTING**: Pastikan setiap frasa berada di baris baru.
+
+    **Contoh isi `pharses.txt`:**
+    ```
+    word1 word2 word3 ... word24
+    another1 another2 another3 ... another24
+    next1 next2 next3 ... next24
+    ```
+
+### Langkah 4: Konfigurasi Notifikasi Telegram
+
+1.  **Dapatkan Token Bot**:
+    -   Buka Telegram dan cari `@BotFather`.
+    -   Kirim perintah `/newbot` dan ikuti instruksinya.
+    -   BotFather akan memberikan Anda sebuah **token API**. Salin token ini.
+
+2.  **Dapatkan Chat ID**:
+    -   Cari bot `@userinfobot` di Telegram.
+    -   Kirim pesan `/start` ke bot tersebut, dan ia akan membalas dengan **Chat ID** Anda. Salin ID ini.
+    -   **PENTING**: Cari bot yang baru Anda buat tadi di Telegram dan klik tombol **"Start"**. Langkah ini wajib agar bot bisa mengirimi Anda pesan.
+
+3.  **Masukkan ke dalam Kode**:
+    -   Buka file `index.js` dengan editor teks.
+    -   Cari baris berikut dan ganti `TOKEN_BOT` dan `ID_TELEGRAM` dengan nilai yang telah Anda dapatkan.
+
+    ```javascript
+    // Ganti dengan info Telegram kamu
+    const TELEGRAM_BOT_TOKEN = 'GANTI_DENGAN_TOKEN_BOT_ANDA';
+    const TELEGRAM_CHAT_ID = 'GANTI_DENGAN_CHAT_ID_ANDA';
+    ```
+    - Simpan file `index.js` setelah selesai.
+
+### Langkah 5: Jalankan Skrip
+
+Setelah semua konfigurasi selesai, jalankan skrip dari terminal Anda dengan perintah:
+
+```bash
+node index.js
+```
+
+Skrip akan mulai memproses setiap *mnemonic phrase* dari file `pharses.txt` dan menampilkan progresnya di konsol.
+
+---
+
+## 📄 Memahami Hasil
+
+Setelah skrip berjalan, hasil akan disimpan di beberapa tempat:
+
+-   **Konsol/Terminal**: Menampilkan log proses secara *real-time*.
+-   **File `valid.txt`**: Berisi semua *mnemonic phrase* yang berhasil divalidasi dan terdaftar di jaringan Pi.
+-   **File `invalid.txt`**: Berisi semua *mnemonic phrase* yang tidak terdaftar.
+-   **Notifikasi Telegram**: Pesan instan akan dikirim untuk setiap frasa yang ditemukan valid.
+
+---
+
+## 🔧 Troubleshooting (Penyelesaian Masalah)
+
+-   **Error: `node: command not found`**
+    -   **Solusi**: Pastikan Anda telah menginstal Node.js dengan benar. Coba restart terminal Anda.
+
+-   **Error: `Error: Cannot find module 'axios'` (atau modul lainnya)**
+    -   **Solusi**: Anda mungkin lupa menjalankan `npm install`. Jalankan kembali perintah tersebut di dalam folder proyek.
+
+-   **Tidak ada notifikasi Telegram.**
+    -   **Solusi**: Periksa kembali `TELEGRAM_BOT_TOKEN` dan `TELEGRAM_CHAT_ID` di `index.js`. Pastikan Anda juga sudah menekan tombol "Start" pada bot Anda di Telegram.
+
+-   **Error: `ENOENT: no such file or directory, open 'pharses.txt'`**
+    -   **Solusi**: Pastikan file `pharses.txt` ada di folder yang sama dengan `index.js` dan namanya sudah benar.
+
+---
+
+## 🤝 Kontribusi
+
+Kontribusi untuk meningkatkan proyek ini sangat kami hargai! Silakan buat *Fork* dan ajukan *Pull Request*.
+
+1.  *Fork* repositori ini.
+2.  Buat *branch* baru (`git checkout -b fitur/NamaFitur`).
+3.  *Commit* perubahan Anda (`git commit -m 'Menambahkan fitur baru'`).
+4.  *Push* ke *branch* Anda (`git push origin fitur/NamaFitur`).
+5.  Buat *Pull Request* baru.
+
+---
+
+## 📞 Kontak Developer
+
+Jika Anda memiliki pertanyaan, saran, atau ingin berdiskusi, jangan ragu untuk menghubungi:
+
+-   **Nama**: zendshost
+-   **Telegram**: [@zendshost](https://t.me/zendshost)
+
+---
+
+## 📄 Lisensi
+
+Proyek ini dilisensikan di bawah [Lisensi MIT](LICENSE).
